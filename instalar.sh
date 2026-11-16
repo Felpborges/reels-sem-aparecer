@@ -17,7 +17,7 @@
 #   · as três fontes do motor documentário, tiradas do próprio computador
 if [ -n "$ZSH_VERSION" ]; then case "$0" in *instalar.sh) exec bash "$0" "$@" ;; *) emulate sh ;; esac; fi
 set -e
-REPO="https://github.com/Felpborges/reels-sem-aparecer.git"
+REPO="${RSA_REPO:-https://github.com/Felpborges/reels-sem-aparecer.git}"   # RSA_REPO e RSA_RAMO: só para testes
 RAMO="${RSA_RAMO:-main}"
 DESTINO="$HOME/.claude/skills/reels-sem-aparecer"
 COM_WHISPER=0; ATUALIZAR=0
