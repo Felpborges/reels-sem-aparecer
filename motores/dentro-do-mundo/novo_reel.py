@@ -7,9 +7,10 @@ AQ = os.path.dirname(os.path.abspath(__file__)); dst, fala, tit = sys.argv[1], s
 nome = sys.argv[4] if len(sys.argv) > 4 else re.sub(r"[^a-z0-9]+", "-", tit.lower().encode("ascii", "ignore").decode()).strip("-")
 if os.path.exists(dst): sys.exit(f"{dst} já existe")
 shutil.copytree(os.path.join(AQ, "base"), dst)
+for _p in ("narracao", "renders", "brutos", os.path.join("assets", "img")):   # o git não guarda pasta vazia: garante as do projeto
+    os.makedirs(os.path.join(dst, _p), exist_ok=True)
 shutil.copy(fala, os.path.join(dst, "narracao", "fala.txt"))
 json.dump({"titulo": tit, "nome": nome, "estilo": "B"}, open(os.path.join(dst, "projeto.json"), "w"), ensure_ascii=False, indent=1)
 open(os.path.join(dst, ".rsa"), "w").write(os.path.abspath(os.path.join(AQ, "..", "..")))   # onde está a skill (o reel.sh lê)
-os.makedirs(os.path.join(dst, "renders"), exist_ok=True)
 subprocess.run([sys.executable, os.path.join(dst, "medir", "texto.py"), os.path.join(dst, "narracao", "fala.txt")], check=True)
 print(f"projeto estilo B criado em {dst}. Próximo: gerar a voz em PT-BR (MOTOR.md §3) e rodar ./reel.sh voz <arquivo>")
