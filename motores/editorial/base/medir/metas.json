@@ -1,0 +1,56 @@
+{
+ "_fonte": "reel de referência (80,1 s), medido em 11-12/11/2026: perícia de movimento, demucs, recriação quadro a quadro",
+ "voz": {
+  "palavras_min": 211,
+  "pausa_media_s": 0.25,
+  "pausa_max_s": 0.39,
+  "fala_ativa": 0.88,
+  "entonacao_st": 3.0,
+  "enfase_db": 3.8,
+  "f0_hz": 124,
+  "tolerancia": {
+   "palavras_min": [
+    200,
+    222
+   ],
+   "pausa_max_s": [
+    0.25,
+    0.45
+   ],
+   "fala_ativa": [
+    0.84,
+    0.92
+   ],
+   "entonacao_st_max": 4.6,
+   "enfase_db_min": 3.0
+  }
+ },
+ "cenas": {
+  "segundos_por_cena_mediana": 1.94,
+  "duracao_min_s": 1.2,
+  "respiro_min_s": 0.3,
+  "imagem_min_s": 0.9,
+  "elementos_por_s_max": 6.0,
+  "abre_com_imagem": 0.7
+ },
+ "movimento": {
+  "amplitude_min": 11.5,
+  "quase_parada_min": 0.64,
+  "picos_min": 4,
+  "cortes_secos_por_min": 19
+ },
+ "audio": {
+  "lufs": -15.5,
+  "trilha_abaixo_da_voz_db": 23.1,
+  "efeitos_por_s": 0.47,
+  "efeitos_rel_voz_p90_db": {
+   "impacto": 9.7,
+   "pop": -4.5,
+   "pop-longo": -9.2,
+   "clique": -8.7,
+   "clique-grave": -11.0,
+   "painel": -11.5
+  }
+ },
+ "movimento_referencia": "medir/movimento-referencia.json"
+}

@@ -1,0 +1,25 @@
+{"_fonte": "lido nas folhas de 5 e 30 fps do original (precisão ±0,05 s). mundo = um cenário (foto ou tela de app); elementos = tudo que ENTRA depois do corte",
+ "mundos": [
+ {"n":1,"ini":0.00,"fim":1.10,"mundo":"sala 3D com quadro-negro (dentro da tela de Fotos do celular)","formato":"9:16","entrada":"abre no 1º quadro","texto":"palavras 3D na sala","elementos":[0.0,0.15,0.40,0.55]},
+ {"n":2,"ini":1.10,"fim":3.13,"mundo":"quadro-negro em close, inclinado, relógio, feixe de sol + arco-íris","formato":"9:16","entrada":"zoom-através com desfoque (0,98-1,28)","texto":"giz manuscrito + sublinhado vermelho","elementos":[1.10,1.20,1.75,2.00,2.05]},
+ {"n":3,"ini":3.13,"fim":5.93,"mundo":"visor da câmera do celular sobre mesa de madeira (cartões, papel, lápis, sombra de persiana)","formato":"9:16","entrada":"quadro preto + exposição sobe em 0,4 s","texto":"manchete 3D impressa + manuscrito no papel","elementos":[3.13,3.45,3.75,4.60,4.90]},
+ {"n":4,"ini":5.93,"fim":7.07,"mundo":"papel cinza-claro com marcas de filme (borda Kodak)","formato":"9:16","entrada":"corte seco","texto":"assentar (cinza→preto) + palavra laranja com cursor","elementos":[6.00,6.15,6.40,6.60]},
+ {"n":5,"ini":7.07,"fim":8.07,"mundo":"preto puro","formato":"9:16","entrada":"corte seco","texto":"branco pequeno + globo","elementos":[7.20,7.55,7.60]},
+ {"n":6,"ini":8.07,"fim":10.50,"mundo":"celular antigo, app de notas (Memo)","formato":"9:16","entrada":"corte seco","texto":"digitado com cursor, câmera segue a digitação","elementos":[8.07,8.25,8.35,8.55,8.75,9.15,9.20,9.55,9.85,10.05]},
+ {"n":7,"ini":10.50,"fim":14.17,"mundo":"app escuro de ranking (lista que rola)","formato":"faixa 1:1","entrada":"objeto passa na frente + corte","texto":"linhas da lista + frase pequena clara que assenta","elementos":[10.50,10.60,10.80,11.00,11.40,12.20,12.40,12.60,12.85,13.20,13.50]},
+ {"n":8,"ini":14.17,"fim":18.17,"mundo":"papel cinza-claro com widgets (pílula de progresso, nós ligados)","formato":"faixa 1:1","entrada":"corte seco","texto":"assentar + contador 1→80% + pílulas com brilho","elementos":[14.17,14.22,14.45,15.40,16.45,16.60,16.75,17.20,17.40]},
+ {"n":9,"ini":18.17,"fim":20.23,"mundo":"conversa de mensagens (balões cinza e azul)","formato":"faixa 1:1","entrada":"dissolvência com desfoque (6 quadros)","texto":"balão cresce palavra a palavra + 'digitando…'","elementos":[18.20,18.35,18.55,18.80,18.90,19.05,19.15,19.40]},
+ {"n":10,"ini":20.23,"fim":22.07,"mundo":"mesa vista de cima (base verde quadriculada, fita cassete, sol diagonal) com pílulas de interface","formato":"9:16","entrada":"riser + corte seco","texto":"palavras dentro das pílulas","elementos":[20.23,20.40,20.60,20.95,21.10,21.30,21.40]},
+ {"n":11,"ini":22.07,"fim":27.23,"mundo":"composer de rede social escuro com a foto anterior anexada","formato":"faixa 1:1","entrada":"corte seco (o mundo anterior vira imagem do post)","texto":"digitado com cursor azul; câmera entra na foto e segue o texto","elementos":[22.07,22.15,22.45,22.70,23.00,23.25,23.60,23.70,23.80,24.10,24.70,25.20,25.60,26.10]},
+ {"n":12,"ini":27.23,"fim":30.50,"mundo":"flatlay de cima (console azul, player, cartas, lápis) em base branca quadriculada","formato":"9:16","entrada":"corte seco","texto":"digitado na tela do console + frase preta que assenta por cima","elementos":[27.23,27.40,27.55,27.80,28.50,28.75,28.83,28.95,29.05,29.20,29.45]},
+ {"n":13,"ini":30.50,"fim":31.95,"mundo":"papel cinza-claro","formato":"9:16","entrada":"corte seco","texto":"assentar, pequeno","elementos":[30.55,30.60,30.75,30.95]},
+ {"n":14,"ini":31.95,"fim":37.00,"mundo":"página de busca (barra, logo, resultado)","formato":"9:16","entrada":"vazamento de luz branco","texto":"digitado na barra + título do resultado digitado","elementos":[32.15,32.20,32.60,33.00,33.40,34.00,34.40,34.60,35.60,35.80,36.00,36.30]}
+ ],
+ "transicoes_internas": [
+  {"t":11.40,"tipo":"rolagem rápida da lista (0,9 s) com borrão"},
+  {"t":16.43,"tipo":"empurrão lateral: pílula sai pela esquerda, nova entra pela direita (10 quadros)"},
+  {"t":23.25,"tipo":"câmera entra na foto do post (zoom 0,3 s) + corte para enquadramento mais perto"},
+  {"t":24.62,"tipo":"vazamento de luz branco (3 quadros)"},
+  {"t":28.50,"tipo":"giro rápido de câmera ~200° com afastamento (9 quadros)"},
+  {"t":33.40,"tipo":"câmera afasta e revela o logo; 34,0 entra nos resultados"}
+ ]}

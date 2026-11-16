@@ -1,0 +1,13 @@
+# criados pelo instalar.sh em cada computador
+.venv/
+ferramentas/node_modules/
+ferramentas/package-lock.json
+modelos/
+# fontes da Apple: cada Mac extrai as suas (ferramentas/fontes-do-sistema.py); não podem ser distribuídas
+motores/documentario/base/assets/fonts/HelveticaNeue.ttf
+motores/documentario/base/assets/fonts/HelveticaNeue-Bold.ttf
+motores/documentario/base/assets/fonts/HoeflerText-Italic.ttf
+# lixo
+.DS_Store
+__pycache__/
+*.pyc

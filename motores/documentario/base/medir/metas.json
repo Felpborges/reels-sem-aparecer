@@ -1,0 +1,57 @@
+{
+ "audio": {
+  "lufs": -14,
+  "cama_abaixo_da_voz_lu": 20,
+  "efeitos_rel_pico_voz_db": {
+   "boom": -4,
+   "thump": -14.5,
+   "objeto": -10.5,
+   "inchaco": -13,
+   "golpe": -16.5,
+   "clique": -3,
+   "estalo": -11.5,
+   "ar-ondas": -26,
+   "ar-curto": -26
+  },
+  "pico_depois_s": {
+   "boom": 0.1,
+   "thump": 0.23,
+   "objeto": 0.26,
+   "inchaco": -0.65,
+   "golpe": 0.12,
+   "clique": 0.0,
+   "estalo": 0.0,
+   "ar-ondas": 0.0,
+   "ar-curto": 0.0
+  }
+ },
+ "voz": {
+  "ppm_total": [
+   140,
+   175
+  ],
+  "pausa_entre_frases_s": [
+   0.2,
+   0.4
+  ],
+  "pausa_max_s": 0.6,
+  "f0_mediana_hz_narradora": 194,
+  "extensao_st_min": 6
+ },
+ "ritmo": {
+  "plano_medio_s": [
+   1.45,
+   1.54
+  ],
+  "plano_min_s": 0.6,
+  "plano_max_s": 2.9,
+  "corte_antes_da_palavra_s": 0.07,
+  "regra": "a dinâmica vale para qualquer duração: um corte a cada 1,45 a 1,54 s em média (planos entre duração/1,54 e duração/1,45; reel mais longo = mais planos)"
+ },
+ "movimento": {
+  "amplitude_min": 3.0,
+  "quase_parada_min": 0.25,
+  "picos_min": 8
+ },
+ "movimento_referencia": "medir/movimento-referencia.json"
+}

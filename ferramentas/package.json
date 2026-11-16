@@ -1,0 +1,8 @@
+{
+  "name": "reels-sem-aparecer-ferramentas",
+  "private": true,
+  "description": "HyperFrames na versão em que os motores foram validados. Não atualize sem refazer os testes.",
+  "dependencies": {
+    "hyperframes": "0.9.45"
+  }
+}

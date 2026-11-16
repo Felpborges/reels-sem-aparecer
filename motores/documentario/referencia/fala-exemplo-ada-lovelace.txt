@@ -1,0 +1,7 @@
+[gancho] Todo mundo lembra do pai dela. Quase ninguém sabe que ela escreveu o primeiro programa de computador da história.
+[contexto] No século dezenove, Ada Lovelace não estava só traduzindo um artigo.
+[feito] Ela escreveu um algoritmo para uma máquina que ainda nem existia.
+[rejeicao] A máquina nunca foi construída.
+[salto] Cem anos depois, a mesma ideia virou a base de computadores, aplicativos e inteligência artificial.
+[moral] O mundo lembrou dela como filha de um poeta, mas a história lembra dela como a primeira programadora.
+[cta] Se você quer criar programas com IA sem saber programar, comenta ADA aqui embaixo.

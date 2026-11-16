@@ -1,0 +1,62 @@
+{
+ "_fonte": "ESTILO C · reel de referência (41,4 s), medido em 13/11/2026: demucs, legendas lidas quadro a quadro, folhas a 2/10/30 fps, recriação aprovada no teste de movimento",
+ "voz": {
+  "palavras_min": 167,
+  "pausa_media_s": 0.26,
+  "pausa_max_s": 0.44,
+  "fala_ativa": 0.88,
+  "entonacao_st": 1.9,
+  "enfase_db": 3.2,
+  "f0_hz": 75,
+  "tolerancia": {
+   "palavras_min": [
+    150,
+    180
+   ],
+   "pausa_max_s": [
+    0.25,
+    0.5
+   ],
+   "pausa_media_s": [
+    0.18,
+    0.34
+   ],
+   "entonacao_st_max": 2.8,
+   "enfase_db_min": 2.4
+  },
+  "_nota": "a VOZ é escolhida no fim pelo Felipe; o motor aplica a qualquer voz o tom (tom_c.py: -6 st, melodia x0,42) e a cadência (ritmo_voz.py)"
+ },
+ "cenas": {
+  "secoes_por_10s": 2.7,
+  "flashes": 4,
+  "legenda_vs_fala_max_s": 0.08,
+  "heroi_vs_fala_s": [
+   -0.25,
+   0.25
+  ],
+  "corte_na_pausa_s": [
+   -0.35,
+   0.12
+  ],
+  "respiro_min_s": 0.4
+ },
+ "movimento": {
+  "amplitude_min": 67.5,
+  "quase_parada_min": 0.73,
+  "picos_min": 2
+ },
+ "audio": {
+  "lufs": -17.6,
+  "trilha_abaixo_da_voz_lu": 5.2,
+  "efeitos_rel_voz_db": {
+   "whoosh": -3.0,
+   "sopro": -9.0,
+   "brilho": -7.0,
+   "impacto": -1.0,
+   "risco": -13.0
+  },
+  "_nota": "trilha ~101 bpm, intro sem bumbo, drop no 1º exemplo, break na síntese (medir/trilha_c.py). -17,6 LUFS é o do original; se o Felipe quiser mais alto para o Instagram, -14 sem mudar o resto.",
+  "_nota_efeitos": "Medidos em 13/11 no resíduo (trilha subtraída compasso a compasso): whoosh em TODA troca de cartão e nos flashes, brilho no ícone/objetos, impacto no drop, risco na seta/arco, sopro nas entradas de texto grande."
+ },
+ "movimento_referencia": "medir/movimento-referencia.json"
+}

@@ -1,0 +1,7 @@
+Modelo: seedance_2_5 · 9:16 · 4 s (28 créditos). Uma das 2 variações foi barrada pelo filtro do provedor; repetir se precisar.
+
+Abstract analog film light leak overlay on a pure black background. A warm amber and orange glow sweeps in from the left, blooms into an overexposed creamy white flash that fills the frame, then recedes while a soft diagonal rainbow prism refraction streak and lens flare drift across and fade back to black. Organic, grainy 16mm film burn texture, vertical streaks, no objects, no people, no text. Static camera.
+
+Retemporizar (o original faz tudo em ~0,23 s):
+ffmpeg -i luz-a.mp4 -filter_complex "[0:v]trim=1.3:1.83,setpts=(PTS-STARTPTS)/6[a];[0:v]trim=1.83:2.2,setpts=(PTS-STARTPTS)/6[b];[0:v]trim=2.2:3.4,setpts=(PTS-STARTPTS)/15[c];[a][b][c]concat=n=3:v=1,fps=30,scale=576:1024[o]" -map "[o]" -an luz.mp4
+(medir no vídeo novo onde está o branco e ajustar os cortes; luz.json: pico 0,12 · antes 0,12 · dur 0,24)

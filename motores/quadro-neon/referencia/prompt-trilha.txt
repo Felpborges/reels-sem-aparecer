@@ -1,0 +1,5 @@
+Modelo: elevenlabs_music_v2_5 · duration 70 · force_instrumental true · batch_size 2 (escolher a que tiver intro sem bateria e drop claro)
+
+Instrumental melodic future bass / chill trap beat for a motivational business explainer reel, 101 BPM, F sharp minor. Emotional bright bell and piano keys melody with warm pads, deep sustained 808 bass, punchy kick on every beat with heavy sidechain pumping on pads and bass, crisp hi-hats and claps. Structure: first 10 seconds only keys, pads and soft bass with no drums, then the full beat drops and keeps a steady energetic groove until the end. Clean modern mix, no vocals, no vocal chops, no risers in the groove.
+
+(Testada em 13/11/2026: saiu 101,3 bpm, intro só teclas 0-8 s, grave a partir de 8 s, build 14-19 s, drop em 19,00 s, groove até ~57 s. Arquivo: ../trilhas/trilha-c-01.mp3)

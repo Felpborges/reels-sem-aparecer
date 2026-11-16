@@ -1,0 +1,11 @@
+{
+ "boom": 0.65,
+ "thump": 0.25,
+ "objeto": 0.43,
+ "inchaco": 0.75,
+ "golpe": 0.02,
+ "clique": 0.001,
+ "estalo": 0.004,
+ "ar-ondas": 0.05,
+ "ar-curto": 0.15
+}

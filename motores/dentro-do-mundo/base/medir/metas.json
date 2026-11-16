@@ -1,0 +1,72 @@
+{
+ "_fonte": "ESTILO B · reel de referência (37,0 s), medido em 12/11/2026: perícia de movimento, demucs, alinhamento forçado, leitura a 5 e 30 fps",
+ "voz": {
+  "palavras_min": 183,
+  "pausa_media_s": 0.41,
+  "pausa_max_s": 0.69,
+  "fala_ativa": 0.88,
+  "entonacao_st": 3.56,
+  "enfase_db": 3.29,
+  "f0_hz": 94,
+  "tolerancia": {
+   "palavras_min": [
+    172,
+    194
+   ],
+   "pausa_max_s": [
+    0.45,
+    0.8
+   ],
+   "entonacao_st_max": 4.6,
+   "enfase_db_min": 2.8,
+   "pausa_media_s": [
+    0.3,
+    0.5
+   ]
+  },
+  "_nota": "medido no narrador do original (pericia/audio/voz-frases.json): por frase ~214/min, total 183/min; frase começa alta (+4 a +11 st) e termina caindo (-2 a -7 st); 1ª palavra é a mais forte; frase-chave ~162/min"
+ },
+ "cenas": {
+  "mundo_mediana_s": 2.24,
+  "mundo_mediana_min_s": 1.8,
+  "mundo_mediana_max_s": 3.0,
+  "mundo_min_s": 1.0,
+  "respiro_min_s": 0.45,
+  "respiro_digitado_min_s": 0.15,
+  "vazio_max_s": 1.15,
+  "corte_antes_palavra_max_s": 0.3,
+  "evento_interno_cada_s": 2.5,
+  "faixa_fracao": 0.4,
+  "faixa_fracao_min": 0.2,
+  "faixa_fracao_max": 0.5,
+  "intervalo_elementos_mediana_s": 0.2
+ },
+ "movimento": {
+  "amplitude_min": 6.1,
+  "quase_parada_min": 0.37,
+  "quase_parada_max": 0.62,
+  "picos_min": 2,
+  "cortes_secos_por_min": 26
+ },
+ "audio": {
+  "lufs": -14.2,
+  "trilha_abaixo_da_voz_db": 11.5,
+  "efeitos_por_s": 0.5,
+  "efeitos_rel_voz_p90_db": {
+   "boom": 5.0,
+   "whoosh": 2.0,
+   "riser": -7.6,
+   "clique": 2.5,
+   "pop": -6.0,
+   "tecla": -13.0,
+   "queda": 4.0,
+   "queda-grave": 4.5,
+   "impacto": 8.3,
+   "impacto-2": 7.8,
+   "impacto-3": 7.8,
+   "soco": 9.5
+  },
+  "efeitos_nota": "Medido em 13/11 nos stems do demucs (drums+other+bass, pico de 10 ms vs p90 da voz): boom texturizado +3,8 a +6,5 (mediana ~+5,5), soco +6,2, queda +4/+4,5, whoosh -0,6 a -1,4 (cai no stem 'other'), riser -7,6. São referência, não regra. Valores de 13/11 já compensam a perda no master (limitador final) e no demucs: com eles, medindo a NOSSA mixagem separada do mesmo jeito (medir/comparar_efeitos_ref.py), os efeitos caem perto dos da ref."
+ },
+ "movimento_referencia": "medir/movimento-referencia.json"
+}
