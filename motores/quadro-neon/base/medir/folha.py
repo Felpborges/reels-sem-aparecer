@@ -1,13 +1,19 @@
 #!/usr/bin/env python3
 """folha.py VIDEO SAIDA_PREFIXO fps largura cols linhas [ini fim]  -> folhas de quadros com carimbo de tempo"""
-import sys, subprocess, numpy as np
+import os, sys, subprocess, numpy as np
 from PIL import Image, ImageDraw, ImageFont
 v,pre,fps,W,C,L=sys.argv[1],sys.argv[2],float(sys.argv[3]),int(sys.argv[4]),int(sys.argv[5]),int(sys.argv[6])
 ini=float(sys.argv[7]) if len(sys.argv)>7 else 0; fim=float(sys.argv[8]) if len(sys.argv)>8 else 999
 H=int(W*16/9)
 raw=subprocess.run(["ffmpeg","-v","error","-ss",str(ini),"-to",str(fim),"-i",v,"-vf",f"fps={fps},scale={W}:{H}","-f","rawvideo","-pix_fmt","rgb24","-"],capture_output=True).stdout
 fr=np.frombuffer(raw,np.uint8).reshape(-1,H,W,3); n=C*L
-f=ImageFont.truetype("/System/Library/Fonts/Helvetica.ttc",14)
+def _fonte(tam):
+    for c in ("/System/Library/Fonts/Helvetica.ttc", os.path.join(os.environ.get("WINDIR", "C:/Windows"), "Fonts", "arial.ttf"),
+              "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"):
+        try: return ImageFont.truetype(c, tam)
+        except OSError: pass
+    return ImageFont.load_default()
+f=_fonte(14)
 for k in range(0,len(fr),n):
     im=Image.new("RGB",(C*W,L*H),(40,0,40)); d=ImageDraw.Draw(im)
     for j,a in enumerate(fr[k:k+n]):

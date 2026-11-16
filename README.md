@@ -44,7 +44,7 @@ colar no Terminal; cole, espere terminar e rode o instalador de novo.
    a 20 minutos; rode em segundo plano e avise a pessoa do tempo).
 2. Se sair com código 3, falta o Homebrew: mostre à pessoa as linhas que o instalador imprimiu, espere ela concluir e
    rode de novo. Não tente instalar o Homebrew você mesmo (pede a senha dela).
-3. No fim, rode `zsh ~/.claude/skills/reels-sem-aparecer/ferramentas/diagnostico.sh` e conte o resultado em linguagem
+3. No fim, rode `bash ~/.claude/skills/reels-sem-aparecer/ferramentas/diagnostico.sh` e conte o resultado em linguagem
    simples. Confira também se o Higgsfield está conectado (`references/higgsfield.md`).
 4. Peça para a pessoa reiniciar o Claude Code para os atalhos aparecerem.
 </details>
@@ -72,7 +72,7 @@ Quer trocar a voz, uma imagem ou uma frase? É só pedir na mesma conversa.
 ## Atualizar ou remover
 
 ```bash
-zsh ~/.claude/skills/reels-sem-aparecer/instalar.sh --atualizar
+bash ~/.claude/skills/reels-sem-aparecer/instalar.sh --atualizar
 ```
 
 Para remover, apague a pasta `~/.claude/skills/reels-sem-aparecer` e as quatro pastas `~/.claude/skills/reel-*` dos atalhos.

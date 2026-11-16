@@ -20,7 +20,7 @@ quadro) e **validado** pelo Felipe na v2. Não mudar número sem medir de novo.
 ## 1 · Pipeline (a ordem importa)
 
 ```bash
-zsh ~/.claude/skills/reels-sem-aparecer/ferramentas/novo-reel.sh editorial <pasta-do-reel> fala.txt "Título do reel"   # cria o projeto (copia base/, lê o roteiro)
+bash ~/.claude/skills/reels-sem-aparecer/ferramentas/novo-reel.sh editorial <pasta-do-reel> fala.txt "Título do reel"   # cria o projeto (copia base/, lê o roteiro)
 # gerar a voz no Higgsfield (§3) e as imagens (§6); tratar com medir/recortar.py
 cd <pasta-do-reel>
 ./reel.sh voz narracao.mp3      # ritmo do original + alinhamento palavra a palavra + medição contra as metas
@@ -32,7 +32,7 @@ cd <pasta-do-reel>
 Olhar `renders/<nome>-folha.jpg` (último quadro de cada cena) antes de entregar: é onde aparecem sobreposições,
 texto branco sobre fundo claro e imagem com cara de brinquedo, que nenhuma checagem automática pega.
 
-Ambiente: tudo vem do `instalar.sh` da skill (Python próprio com demucs, librosa, rembg e o alinhador em português; HyperFrames na versão validada; `ffmpeg` e `rubberband`). O `reel.sh` de cada projeto já usa esse ambiente sozinho. Para conferir a máquina: `zsh ~/.claude/skills/reels-sem-aparecer/ferramentas/diagnostico.sh`.
+Ambiente: tudo vem do `instalar.sh` da skill (Python próprio com demucs, librosa, rembg e o alinhador em português; HyperFrames na versão validada; `ffmpeg` e `rubberband`). O `reel.sh` de cada projeto já usa esse ambiente sozinho. Para conferir a máquina: `bash ~/.claude/skills/reels-sem-aparecer/ferramentas/diagnostico.sh`.
 
 ## 2 · Roteiro
 

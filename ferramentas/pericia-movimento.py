@@ -69,11 +69,11 @@ def energia(video):
     with tempfile.TemporaryDirectory() as tmp:
         alvo = Path(tmp) / "m.txt"
         subprocess.run(
-            ["ffmpeg", "-v", "error", "-i", str(video),
+            ["ffmpeg", "-v", "error", "-i", str(Path(video).resolve()),
              "-vf", "scale=192:108,tblend=all_mode=difference,signalstats,"
-                    "metadata=print:key=lavfi.signalstats.YAVG:file=%s" % alvo,
+                    "metadata=print:key=lavfi.signalstats.YAVG:file=m.txt",
              "-f", "null", "-"],
-            capture_output=True, check=True)
+            capture_output=True, check=True, cwd=tmp)
         txt = alvo.read_text()
     pares = re.findall(r"pts_time:([\d.]+).*?YAVG=([\d.]+)", txt, re.S)
     return [(float(t), float(v)) for t, v in pares]

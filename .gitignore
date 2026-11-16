@@ -11,3 +11,4 @@ motores/documentario/base/assets/fonts/HoeflerText-Italic.ttf
 .DS_Store
 __pycache__/
 *.pyc
+ferramentas/bin/

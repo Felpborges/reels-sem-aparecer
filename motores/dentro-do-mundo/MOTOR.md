@@ -26,7 +26,7 @@ recriação. Não mudar número sem medir de novo.
 ## 1 · Pipeline (a ordem importa)
 
 ```bash
-zsh ~/.claude/skills/reels-sem-aparecer/ferramentas/novo-reel.sh dentro-do-mundo <pasta-do-reel> fala.txt "Título do reel"   # cria o projeto (copia base/, lê o roteiro)
+bash ~/.claude/skills/reels-sem-aparecer/ferramentas/novo-reel.sh dentro-do-mundo <pasta-do-reel> fala.txt "Título do reel"   # cria o projeto (copia base/, lê o roteiro)
 # gerar a voz em PT-BR (§3) e as imagens (§6)
 cd <pasta-do-reel>
 ./reel.sh voz narracao.mp3    # alinha a voz crua -> tom e cadência do B frase a frase -> realinha -> mede
@@ -39,7 +39,7 @@ cd <pasta-do-reel>
 Olhar `renders/<nome>-folha.jpg` (meio e fim de cada mundo) antes de entregar: texto fora da superfície, palavra cortada,
 logo de terceiros, imagem com cara de brinquedo — nada disso a checagem automática pega.
 
-Ambiente: tudo vem do `instalar.sh` da skill (Python próprio com demucs, librosa, rembg e o alinhador em português; HyperFrames na versão validada; `ffmpeg` e `rubberband`). O `reel.sh` de cada projeto já usa esse ambiente sozinho. Para conferir a máquina: `zsh ~/.claude/skills/reels-sem-aparecer/ferramentas/diagnostico.sh`.
+Ambiente: tudo vem do `instalar.sh` da skill (Python próprio com demucs, librosa, rembg e o alinhador em português; HyperFrames na versão validada; `ffmpeg` e `rubberband`). O `reel.sh` de cada projeto já usa esse ambiente sozinho. Para conferir a máquina: `bash ~/.claude/skills/reels-sem-aparecer/ferramentas/diagnostico.sh`.
 
 ## 2 · Roteiro (esqueleto medido)
 

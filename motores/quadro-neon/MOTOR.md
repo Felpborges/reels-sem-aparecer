@@ -33,7 +33,7 @@ recriação. Não mudar número sem medir de novo.
 ## 1 · Pipeline
 
 ```bash
-zsh ~/.claude/skills/reels-sem-aparecer/ferramentas/novo-reel.sh quadro-neon <pasta-do-reel> fala.txt "Título do reel"   # cria o projeto (copia base/, lê o roteiro)
+bash ~/.claude/skills/reels-sem-aparecer/ferramentas/novo-reel.sh quadro-neon <pasta-do-reel> fala.txt "Título do reel"   # cria o projeto (copia base/, lê o roteiro)
 cd <pasta-do-reel>
 ./reel.sh marca ifood.com.br ifood                         # print REAL do site + logo OFICIAL (uma vez por marca)
 # imagens do gancho e do reframe (Higgsfield, §5) em assets/img/ · trilha em assets/trilha.mp3 (§6) · preencher cenas.py
@@ -46,7 +46,7 @@ cd <pasta-do-reel>
 Olhar `renders/<nome>-folha-0*.jpg` antes de entregar (print com banner/cookies, logo errado, localização aparecendo,
 imagem com cara de brinquedo: o automático não pega).
 
-Ambiente: tudo vem do `instalar.sh` da skill (Python próprio com demucs, librosa, rembg e o alinhador em português; HyperFrames na versão validada; `ffmpeg` e `rubberband`). O `reel.sh` de cada projeto já usa esse ambiente sozinho. Para conferir a máquina: `zsh ~/.claude/skills/reels-sem-aparecer/ferramentas/diagnostico.sh`. Este motor usa o Google Chrome para os prints das marcas e para a auditoria.
+Ambiente: tudo vem do `instalar.sh` da skill (Python próprio com demucs, librosa, rembg e o alinhador em português; HyperFrames na versão validada; `ffmpeg` e `rubberband`). O `reel.sh` de cada projeto já usa esse ambiente sozinho. Para conferir a máquina: `bash ~/.claude/skills/reels-sem-aparecer/ferramentas/diagnostico.sh`. Este motor usa o Google Chrome para os prints das marcas e para a auditoria.
 
 ## 2 · Roteiro (esqueleto medido) — `fala.txt` marcado por ATO
 

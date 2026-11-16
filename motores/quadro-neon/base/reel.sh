@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/usr/bin/env bash
 # MOTOR ESTILO C · pipeline na ordem certa. Independente dos motores A e B. Rodar de qualquer lugar: ./reel.sh <etapa> [arg]
 #   texto fala.txt        -> medir/texto.json + medir/frases.json (roteiro marcado por ato: [gancho] [ponte] [tese] ...)
 #   marca <site> <slug>   -> assets/img/print-<slug>.jpg (print real) + logo-<slug>.png (logo oficial)
@@ -8,11 +8,11 @@
 #   checar                -> build -> auditoria de cada palavra em cada quadro
 #   quadros t1 t2 ...     -> PNGs rápidos do index.html (sem render) em renders/q-<t>.png
 #   montar                -> checar + trilha arranjada + mixagem + render + cópia leve + teste de movimento + folha
-set -e; setopt pipefail; EU="${0:a}"; cd "${0:a:h}"
-RSA="${REELS_SEM_APARECER:-$(cat .rsa 2>/dev/null || true)}"; [ -f "$RSA/ferramentas/ambiente.zsh" ] || RSA="$HOME/.claude/skills/reels-sem-aparecer"
-source "$RSA/ferramentas/ambiente.zsh" || exit 1   # python3, hyperframes e node da skill; RSA_CHROME, RSA_PERICIA, rsa_conferir_fala
+set -eo pipefail; cd "$(dirname "$0")"; EU="$(pwd)/$(basename "$0")"
+RSA="${REELS_SEM_APARECER:-$(cat .rsa 2>/dev/null || true)}"; [ -f "$RSA/ferramentas/ambiente.sh" ] || RSA="$HOME/.claude/skills/reels-sem-aparecer"
+source "$RSA/ferramentas/ambiente.sh" || exit 1   # python3, hyperframes, node, ffmpeg e rubberband da skill; RSA_CHROME, RSA_PERICIA, rsa_conferir_fala
 SEP=python3; ALN=python3
-NOME=$(python3 -c "import json;print(json.load(open('projeto.json'))['nome'])")
+NOME=$(python3 -c "import json;print(json.load(open('projeto.json'))['nome'])" | tr -d '\r')
 REF=medir/movimento-referencia.json   # assinatura de movimento medida na referência (só números)
 case "$1" in
   texto) python3 medir/texto.py "$2" ;;
@@ -40,7 +40,7 @@ case "$1" in
     tail -1 medir/auditoria-relatorio.txt ;;
   quadros) shift; python3 build.py >/dev/null; node medir/quadros.mjs renders/q "$@" ;;
   montar)
-    "$0" checar
+    "$EU" checar
     [ -f assets/sfx/brilho.wav ] || $SEP medir/sfx_c.py assets/sfx
     $SEP mix.py
     python3 build.py >/dev/null

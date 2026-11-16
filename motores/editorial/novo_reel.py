@@ -11,6 +11,6 @@ for _p in ("narracao", "renders", "brutos", os.path.join("assets", "img")):   # 
     os.makedirs(os.path.join(dst, _p), exist_ok=True)
 shutil.copy(fala, os.path.join(dst, "narracao", "fala.txt"))
 json.dump({"titulo": tit, "nome": nome}, open(os.path.join(dst, "projeto.json"), "w"), ensure_ascii=False, indent=1)
-open(os.path.join(dst, ".rsa"), "w").write(os.path.abspath(os.path.join(AQ, "..", "..")))   # onde está a skill (o reel.sh lê)
+open(os.path.join(dst, ".rsa"), "w").write(os.path.abspath(os.path.join(AQ, "..", "..")).replace("\\", "/"))   # onde está a skill (o reel.sh lê)
 subprocess.run([sys.executable, os.path.join(dst, "medir", "texto.py"), os.path.join(dst, "narracao", "fala.txt")], check=True)
 print(f"projeto criado em {dst}. Próximo: gerar a voz (MOTOR.md §3) e rodar ./reel.sh voz <arquivo>")

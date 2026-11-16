@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/usr/bin/env bash
 # MOTOR ESTILO B · pipeline na ordem certa. Independente do motor A. Rodar de qualquer lugar: ./reel.sh <etapa> [arg]
 #   texto fala.txt        -> medir/texto.json + medir/frases.json (frase-chave marcada com » no roteiro)
 #   voz narracao.mp3      -> alinha a voz crua -> tom e cadência do B frase a frase -> realinha -> mede contra o original
@@ -6,11 +6,11 @@
 #   checar                -> build -> cadência dos mundos -> AUDITORIA de cada palavra em cada quadro. Para no primeiro erro.
 #   montar                -> checar + mixagem + render + cópia leve + teste de movimento contra o original + folha de quadros
 #   provar <t> <opções…>  -> toca o mesmo trecho com cada efeito candidato (medir/provar_efeitos.py) -> renders/provar-<t>.m4a
-set -e; setopt pipefail; EU="${0:a}"; cd "${0:a:h}"
-RSA="${REELS_SEM_APARECER:-$(cat .rsa 2>/dev/null || true)}"; [ -f "$RSA/ferramentas/ambiente.zsh" ] || RSA="$HOME/.claude/skills/reels-sem-aparecer"
-source "$RSA/ferramentas/ambiente.zsh" || exit 1   # python3, hyperframes e node da skill; RSA_CHROME, RSA_PERICIA, rsa_conferir_fala
+set -eo pipefail; cd "$(dirname "$0")"; EU="$(pwd)/$(basename "$0")"
+RSA="${REELS_SEM_APARECER:-$(cat .rsa 2>/dev/null || true)}"; [ -f "$RSA/ferramentas/ambiente.sh" ] || RSA="$HOME/.claude/skills/reels-sem-aparecer"
+source "$RSA/ferramentas/ambiente.sh" || exit 1   # python3, hyperframes, node, ffmpeg e rubberband da skill; RSA_CHROME, RSA_PERICIA, rsa_conferir_fala
 SEP=python3; ALN=python3
-NOME=$(python3 -c "import json;print(json.load(open('projeto.json'))['nome'])")
+NOME=$(python3 -c "import json;print(json.load(open('projeto.json'))['nome'])" | tr -d '\r')
 REF=medir/movimento-referencia.json   # assinatura de movimento medida na referência (só números)
 case "$1" in
   texto) python3 medir/texto.py "$2" ;;
@@ -30,7 +30,7 @@ case "$1" in
     python3 medir/auditoria_relatorio.py > medir/auditoria-relatorio.txt || { grep -vE "fora" medir/auditoria-relatorio.txt | tail -40; exit 1; }
     tail -1 medir/auditoria-relatorio.txt ;;
   montar)
-    "$0" checar
+    "$EU" checar
     [ -f assets/sfx/clique.wav ] || $SEP medir/sfx_b.py assets/sfx
     [ -f assets/sfx/queda.wav ] || $SEP medir/sfx_ref.py assets/sfx     # kit inicial recriado da referência (refaz whoosh e riser)
     $SEP mix.py

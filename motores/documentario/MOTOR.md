@@ -35,7 +35,7 @@ em `base/`, a pergunta é: "isso valeria para um reel de outro assunto?". Se nã
 ## 1 · Pipeline
 
 ```bash
-zsh ~/.claude/skills/reels-sem-aparecer/ferramentas/novo-reel.sh documentario <pasta-do-reel> fala.txt "Título do reel"   # cria o projeto (copia base/, lê o roteiro)
+bash ~/.claude/skills/reels-sem-aparecer/ferramentas/novo-reel.sh documentario <pasta-do-reel> fala.txt "Título do reel"   # cria o projeto (copia base/, lê o roteiro)
 cd <pasta-do-reel>
 # imagens (§5) em assets/img/ (recortes: medir/recorte.py) · cama em assets/trilha.mp3 (§6)
 ./reel.sh voz narracao-provisoria.mp3                        # voz gerada com narracao/fala-para-voz.txt; aperta as pausas (§4)
@@ -49,7 +49,7 @@ cd <pasta-do-reel>
 Saídas: `renders/<nome>.mp4` (1080×1920, 30 fps), `renders/<nome>-compartilhar.mp4`, `renders/<nome>-folha-0*.jpg`.
 **Olhar as folhas antes de entregar** (o automático não pega imagem com cara de IA, texto que encosta, recorte sujo).
 
-Ambiente: tudo vem do `instalar.sh` da skill (Python próprio com demucs, librosa, rembg e o alinhador em português; HyperFrames na versão validada; `ffmpeg` e `rubberband`). O `reel.sh` de cada projeto já usa esse ambiente sozinho. Para conferir a máquina: `zsh ~/.claude/skills/reels-sem-aparecer/ferramentas/diagnostico.sh`. As três fontes deste motor (Hoefler Text Italic, Helvetica Neue e Helvetica Neue Bold) são tiradas do próprio macOS pelo instalador (`~/.claude/skills/reels-sem-aparecer/ferramentas/fontes-do-sistema.py`); se o build reclamar de fonte faltando, rode o instalador de novo.
+Ambiente: tudo vem do `instalar.sh` da skill (Python próprio com demucs, librosa, rembg e o alinhador em português; HyperFrames na versão validada; `ffmpeg` e `rubberband`). O `reel.sh` de cada projeto já usa esse ambiente sozinho. Para conferir a máquina: `bash ~/.claude/skills/reels-sem-aparecer/ferramentas/diagnostico.sh`. As três fontes deste motor (Hoefler Text Italic, Helvetica Neue e Helvetica Neue Bold) são tiradas do próprio macOS pelo instalador (`~/.claude/skills/reels-sem-aparecer/ferramentas/fontes-do-sistema.py`); se o build reclamar de fonte faltando, rode o instalador de novo.
 
 ## 2 · Roteiro — `fala.txt` marcado por ATO
 

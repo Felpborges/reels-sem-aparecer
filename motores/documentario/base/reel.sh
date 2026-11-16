@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/usr/bin/env bash
 # MOTOR ESTILO D · pipeline na ordem certa. Independente dos motores A, B e C. Rodar de qualquer lugar: ./reel.sh <etapa> [arg]
 #   texto                 -> medir/texto.json + atos.json (roteiro em narracao/fala.txt, marcado por ato)
 #   voz narracao.mp3      -> tira o silêncio das pontas -> alinha -> põe as PAUSAS na cadência da referência -> realinha -> mede
@@ -8,11 +8,11 @@
 #   checar                -> build + lint do HyperFrames
 #   quadros t1 t2 ...     -> renderiza o limpo e tira PNGs em renders/q-<t>.png
 #   montar                -> checar -> render 10 fps -> efeitos -> mixagem -> película (1080x1920) -> cópia leve -> movimento -> folha
-set -e; setopt pipefail; EU="${0:a}"; cd "${0:a:h}"
-RSA="${REELS_SEM_APARECER:-$(cat .rsa 2>/dev/null || true)}"; [ -f "$RSA/ferramentas/ambiente.zsh" ] || RSA="$HOME/.claude/skills/reels-sem-aparecer"
-source "$RSA/ferramentas/ambiente.zsh" || exit 1   # python3, hyperframes e node da skill; RSA_CHROME, RSA_PERICIA, rsa_conferir_fala
+set -eo pipefail; cd "$(dirname "$0")"; EU="$(pwd)/$(basename "$0")"
+RSA="${REELS_SEM_APARECER:-$(cat .rsa 2>/dev/null || true)}"; [ -f "$RSA/ferramentas/ambiente.sh" ] || RSA="$HOME/.claude/skills/reels-sem-aparecer"
+source "$RSA/ferramentas/ambiente.sh" || exit 1   # python3, hyperframes, node, ffmpeg e rubberband da skill; RSA_CHROME, RSA_PERICIA, rsa_conferir_fala
 SEP=python3; ALN=python3
-NOME=$(python3 -c "import json;print(json.load(open('projeto.json'))['nome'])")
+NOME=$(python3 -c "import json;print(json.load(open('projeto.json'))['nome'])" | tr -d '\r')
 REF=medir/movimento-referencia.json   # assinatura de movimento medida na referência (só números)
 case "$1" in
   texto) python3 medir/texto.py narracao/fala.txt ;;
@@ -39,7 +39,7 @@ case "$1" in
     hyperframes render . -o renders/limpo.mp4 --fps 10 --quality high --crf 14 > renders/render.log 2>&1
     for t in "$@"; do ffmpeg -y -v error -ss $t -i renders/limpo.mp4 -frames:v 1 "renders/q-$t.png"; done; ls renders/q-*.png ;;
   montar)
-    "$0" checar
+    "$EU" checar
     [ -f assets/sfx/clique.wav ] || $SEP -I medir/sfx_d.py assets/sfx
     $SEP -I mix.py
     python3 build.py >/dev/null

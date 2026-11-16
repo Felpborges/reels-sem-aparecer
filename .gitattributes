@@ -1,0 +1,16 @@
+# Os scripts rodam no bash (inclusive no Git Bash do Windows): fim de linha sempre LF, em qualquer sistema.
+* text=auto eol=lf
+*.ps1 text eol=crlf
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.gif binary
+*.mp3 binary
+*.wav binary
+*.m4a binary
+*.mp4 binary
+*.ttf binary
+*.otf binary
+*.woff binary
+*.woff2 binary

@@ -32,7 +32,7 @@ Regras do roteador:
 
 ## 2 · Antes do primeiro reel: a máquina
 
-1. `zsh S/ferramentas/diagnostico.sh`. Saiu `PRONTO`: siga. Faltou algo: rode `zsh S/instalar.sh` (10 a 20 min na primeira
+1. `bash S/ferramentas/diagnostico.sh`. Saiu `PRONTO`: siga. Faltou algo: rode `bash S/instalar.sh` (10 a 20 min na primeira
    vez, ~4 GB; pode rodar de novo à vontade). Se ele parar pedindo o **Homebrew**, é o único passo que a pessoa faz
    sozinha (pede a senha do Mac): mostre as três linhas que ele imprime e espere ela avisar que terminou.
 2. **Higgsfield conectado.** Voz, imagens e trilha saem do Higgsfield pelo conector (MCP). Confira procurando as
@@ -56,7 +56,7 @@ não dá, diga quanto falta e pare.
 
 **3 · Projeto.** Uma pasta por reel, em `reels/<nome-do-reel>/` dentro da pasta atual (nunca dentro da skill):
 ```bash
-zsh S/ferramentas/novo-reel.sh <motor> reels/<nome-do-reel> <fala.txt> "Título do reel"
+bash S/ferramentas/novo-reel.sh <motor> reels/<nome-do-reel> <fala.txt> "Título do reel"
 ```
 Daí em diante tudo roda de dentro dessa pasta com `./reel.sh <etapa>` (rode `./reel.sh` sem nada para ver as etapas).
 O `reel.sh` já usa o Python, o HyperFrames e os modelos da skill; não instale nem troque nada na mão.
@@ -107,8 +107,8 @@ olhe a folha de novo. Mudou o texto: `./reel.sh texto` (ou o equivalente do moto
 
 | Sintoma | O que fazer |
 |---|---|
-| "A skill ainda não terminou de ser instalada" | `zsh S/instalar.sh` |
-| `conferir-fala` diz que foi pulada | o transcritor é opcional: `zsh S/instalar.sh --com-whisper`; enquanto isso, ouça a narração inteira |
+| "A skill ainda não terminou de ser instalada" | `bash S/instalar.sh` |
+| `conferir-fala` diz que foi pulada | o transcritor é opcional: `bash S/instalar.sh --com-whisper`; enquanto isso, ouça a narração inteira |
 | build do documentário reclama de fonte | `S/.venv/bin/python S/ferramentas/fontes-do-sistema.py` (tira as fontes do próprio macOS) |
 | auditoria ou margens não abrem o navegador | falta o Google Chrome instalado |
 | render falha | leia `renders/render.log`; quase sempre é imagem que o `cenas.py` cita e não está em `assets/img/` |
@@ -119,7 +119,7 @@ olhe a folha de novo. Mudou o texto: `./reel.sh texto` (ou o equivalente do moto
 ```
 SKILL.md                      este arquivo (o roteador)
 instalar.sh                   instala tudo o que os motores precisam (macOS)
-ferramentas/                  diagnostico.sh · novo-reel.sh · ambiente.zsh · pericia-movimento.py · fontes-do-sistema.py
+ferramentas/                  diagnostico.sh · novo-reel.sh · ambiente.sh · pericia-movimento.py · fontes-do-sistema.py
 motores/<motor>/MOTOR.md      o manual do motor (ler inteiro antes de produzir)
 motores/<motor>/base/         o projeto vazio que o novo-reel.sh copia (build, moldes, mixagem, reel.sh, medidores)
 motores/<motor>/referencia/   exemplos completos (cenas + fala), prompts e medidas da referência (só números)

@@ -11,7 +11,7 @@ for _p in ("narracao", "renders", "brutos", os.path.join("assets", "img")):   # 
     os.makedirs(os.path.join(dst, _p), exist_ok=True)
 shutil.copy(fala, os.path.join(dst, "narracao", "fala.txt"))
 json.dump({"titulo": tit, "nome": nome, "estilo": "C"}, open(os.path.join(dst, "projeto.json"), "w"), ensure_ascii=False, indent=1)
-open(os.path.join(dst, ".rsa"), "w").write(os.path.abspath(os.path.join(AQ, "..", "..")))   # onde está a skill (o reel.sh lê)
+open(os.path.join(dst, ".rsa"), "w").write(os.path.abspath(os.path.join(AQ, "..", "..")).replace("\\", "/"))   # onde está a skill (o reel.sh lê)
 subprocess.run([sys.executable, os.path.join(dst, "medir", "texto.py"), os.path.join(dst, "narracao", "fala.txt")], check=True)
 print(f"projeto estilo C criado em {dst}.\nPróximos: imagens + ./reel.sh marca <site> <slug> + cenas.py; voz PROVISÓRIA -> ./reel.sh voz; trilha em assets/trilha.mp3; ./reel.sh montar.\n"
       "A voz definitiva é escolhida pela pessoa no FIM: ./reel.sh voz <escolhida> && ./reel.sh montar (todos os tempos se refazem).")

@@ -1,83 +1,131 @@
-#!/bin/zsh
-# REELS SEM APARECER · instalador (macOS).
+#!/usr/bin/env bash
+# REELS SEM APARECER · instalador (macOS e Windows).
 #
-#   zsh instalar.sh                 instala tudo o que falta (pode rodar de novo quantas vezes quiser; não refaz o que já existe)
-#   zsh instalar.sh --com-whisper   também instala o transcritor que confere a narração (+ 0,6 GB)
-#   zsh instalar.sh --atualizar     baixa a versão mais nova da skill antes de instalar
+#   bash instalar.sh                 instala tudo o que falta (pode rodar de novo quantas vezes quiser; não refaz o que já existe)
+#   bash instalar.sh --com-whisper   (só Mac) também instala o transcritor que confere a narração (+ 0,6 GB)
+#   bash instalar.sh --atualizar     baixa a versão mais nova da skill antes de instalar
 #
-# Também funciona direto da internet, sem baixar nada antes (ele mesmo baixa a skill para ~/.claude/skills/):
-#   curl -fsSL https://raw.githubusercontent.com/Felpborges/reels-sem-aparecer/main/instalar.sh | zsh
+# Direto da internet, sem baixar nada antes (ele mesmo baixa a skill para ~/.claude/skills/):
+#   Mac (app Terminal):          curl -fsSL https://raw.githubusercontent.com/Felpborges/reels-sem-aparecer/main/instalar.sh | bash
+#   Windows (app PowerShell):    irm https://raw.githubusercontent.com/Felpborges/reels-sem-aparecer/main/instalar.ps1 | iex
 #
 # O que ele põe no computador (cerca de 4 GB, 10 a 20 minutos na primeira vez):
-#   · pelo Homebrew: ffmpeg, node, rubberband e uv (só os que faltarem)
+#   · Mac: pelo Homebrew, ffmpeg, node, rubberband e uv (só os que faltarem)
+#   · Windows: dentro da pasta da skill (ferramentas/bin), ffmpeg, node, rubberband e uv; nada é instalado no sistema
 #   · dentro da pasta da skill: um Python próprio (.venv) e o HyperFrames na versão em que os motores foram validados
 #   · modelos: alinhamento palavra a palavra em português, separação de áudio e recorte de fundo
-#   · as três fontes do motor documentário, tiradas do próprio macOS
-# Nada é instalado fora da pasta da skill além dos programas do Homebrew e dos caches normais dessas ferramentas.
-
+#   · as três fontes do motor documentário, tiradas do próprio computador
+if [ -n "$ZSH_VERSION" ]; then case "$0" in *instalar.sh) exec bash "$0" "$@" ;; *) emulate sh ;; esac; fi
 set -e
 REPO="https://github.com/Felpborges/reels-sem-aparecer.git"
+RAMO="${RSA_RAMO:-main}"
 DESTINO="$HOME/.claude/skills/reels-sem-aparecer"
 COM_WHISPER=0; ATUALIZAR=0
 for a in "$@"; do
   case "$a" in
     --com-whisper) COM_WHISPER=1 ;;
     --atualizar) ATUALIZAR=1 ;;
-    *) print "opção desconhecida: $a"; exit 2 ;;
+    *) echo "opção desconhecida: $a"; exit 2 ;;
   esac
 done
-export PATH="/opt/homebrew/bin:/usr/local/bin:$HOME/.local/bin:$PATH"
-passo() { print; print -r -- "▸ $1"; }
-
-[ "$(uname)" = "Darwin" ] || { print "Este instalador é para macOS. No Windows a skill ainda não roda."; exit 1; }
+case "$(uname -s)" in
+  Darwin) OS=mac ;;
+  MINGW*|MSYS*|CYGWIN*) OS=windows ;;
+  *) echo "Este instalador cobre macOS e Windows. Neste sistema ($(uname -s)) a skill ainda não roda."; exit 1 ;;
+esac
+passo() { printf '\n▸ %s\n' "$1"; }
 
 # 0 · onde está a skill? (rodando de dentro dela, ou vindo direto da internet)
-AQUI="${0:a:h}"
-if [ -f "$AQUI/SKILL.md" ] && [ -d "$AQUI/motores" ]; then
+AQUI=""; case "$0" in *instalar.sh) AQUI="$(cd "$(dirname "$0")" && pwd)" ;; esac
+if [ -n "$AQUI" ] && [ -f "$AQUI/SKILL.md" ] && [ -d "$AQUI/motores" ]; then
   RSA="$AQUI"
-  if (( ATUALIZAR )) && [ -d "$RSA/.git" ]; then passo "Atualizando a skill"; git -C "$RSA" pull --ff-only; fi
+  if [ "$ATUALIZAR" = 1 ] && [ -d "$RSA/.git" ]; then
+    passo "Atualizando a skill"; git -C "$RSA" pull --ff-only
+    if [ "$COM_WHISPER" = 1 ]; then exec bash "$RSA/instalar.sh" --com-whisper; else exec bash "$RSA/instalar.sh"; fi
+  fi
 else
-  command -v git >/dev/null || { print "Falta o git. Abra o Terminal, rode  xcode-select --install  , conclua a instalação e rode este comando de novo."; exit 1; }
+  command -v git >/dev/null 2>&1 || { echo "Falta o git. No Mac: abra o Terminal, rode  xcode-select --install  , conclua e rode este comando de novo. No Windows: use o comando do PowerShell (instalar.ps1), que instala o Git."; exit 1; }
   if [ -d "$DESTINO/.git" ]; then passo "A skill já está em $DESTINO; atualizando"; git -C "$DESTINO" pull --ff-only
-  elif [ -e "$DESTINO" ]; then print "Já existe uma pasta em $DESTINO que não veio deste instalador. Renomeie ou apague essa pasta e rode de novo."; exit 1
-  else passo "Baixando a skill para $DESTINO"; mkdir -p "${DESTINO:h}"; git clone --depth 1 "$REPO" "$DESTINO"; fi
-  exec zsh "$DESTINO/instalar.sh" "$@"
+  elif [ -e "$DESTINO" ]; then echo "Já existe uma pasta em $DESTINO que não veio deste instalador. Renomeie ou apague essa pasta e rode de novo."; exit 1
+  else passo "Baixando a skill para $DESTINO"; mkdir -p "$(dirname "$DESTINO")"; git -c core.autocrlf=false clone --depth 1 --branch "$RAMO" "$REPO" "$DESTINO"; fi
+  exec bash "$DESTINO/instalar.sh" "$@"
 fi
-print "Reels sem aparecer · instalando em $RSA"
+echo "Reels sem aparecer · instalando em $RSA"
 
-# 1 · Homebrew (é o único passo que pede a senha do computador; por isso não é feito sozinho)
-if ! command -v brew >/dev/null; then
-  print
-  print "Falta o Homebrew, o instalador de programas do Mac. Ele pede a senha do computador, então precisa ser você:"
-  print "  1. Abra o app Terminal."
-  print '  2. Cole esta linha e aperte Enter:'
-  print '     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"'
-  print "  3. Quando terminar, rode este instalador de novo."
-  exit 3
+if [ "$OS" = mac ]; then
+  export PATH="/opt/homebrew/bin:/usr/local/bin:$HOME/.local/bin:$PATH"
+  # 1 · Homebrew (é o único passo que pede a senha do computador; por isso não é feito sozinho)
+  if ! command -v brew >/dev/null 2>&1; then
+    echo
+    echo "Falta o Homebrew, o instalador de programas do Mac. Ele pede a senha do computador, então precisa ser você:"
+    echo "  1. Abra o app Terminal."
+    echo '  2. Cole esta linha e aperte Enter:'
+    echo '     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"'
+    echo "  3. Quando terminar, rode este instalador de novo."
+    exit 3
+  fi
+  # 2 · programas
+  passo "Programas (ffmpeg, node, rubberband, uv)"
+  for par in ffmpeg:ffmpeg node:node rubberband:rubberband uv:uv; do
+    cmd="${par%%:*}"; formula="${par##*:}"
+    if command -v "$cmd" >/dev/null 2>&1; then echo "  já instalado: $cmd"; else echo "  instalando $formula…"; brew install "$formula"; fi
+  done
+  PY="$RSA/.venv/bin/python"
+else
+  # 1-2 · Windows: programas portáteis dentro da skill (não mexe no sistema, não pede senha)
+  BIN="$RSA/ferramentas/bin"; TMPD="$BIN/_baixando"; mkdir -p "$BIN"
+  export PATH="$BIN:$BIN/node:$PATH"
+  baixa() { curl -fL --retry 3 --retry-delay 2 --progress-bar -o "$2" "$1"; }
+  abre_zip() {
+    rm -rf "$2"; mkdir -p "$2"
+    if command -v unzip >/dev/null 2>&1; then unzip -qo "$1" -d "$2"
+    else powershell.exe -NoProfile -Command "Expand-Archive -Force -LiteralPath '$(cygpath -w "$1")' -DestinationPath '$(cygpath -w "$2")'"; fi
+  }
+  passo "Programas (uv, ffmpeg, node, rubberband), dentro da pasta da skill"
+  mkdir -p "$TMPD"
+  if [ -f "$BIN/uv.exe" ]; then echo "  já instalado: uv"; else
+    echo "  baixando uv…"; baixa "https://github.com/astral-sh/uv/releases/latest/download/uv-x86_64-pc-windows-msvc.zip" "$TMPD/uv.zip"
+    abre_zip "$TMPD/uv.zip" "$TMPD/uv"; find "$TMPD/uv" -name "uv*.exe" -exec mv -f {} "$BIN/" \;
+  fi
+  if [ -f "$BIN/ffmpeg.exe" ] && [ -f "$BIN/ffprobe.exe" ]; then echo "  já instalado: ffmpeg"; else
+    echo "  baixando ffmpeg (uns 100 MB)…"; baixa "https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-essentials.zip" "$TMPD/ffmpeg.zip"
+    abre_zip "$TMPD/ffmpeg.zip" "$TMPD/ffmpeg"
+    find "$TMPD/ffmpeg" \( -name "ffmpeg.exe" -o -name "ffprobe.exe" \) -exec mv -f {} "$BIN/" \;
+  fi
+  if [ -f "$BIN/node/node.exe" ]; then echo "  já instalado: node"; else
+    NODE_ZIP="$(curl -fsSL https://nodejs.org/dist/latest-v22.x/SHASUMS256.txt | grep -o 'node-v[0-9.]*-win-x64\.zip' | head -1)"
+    [ -n "$NODE_ZIP" ] || { echo "Não consegui descobrir a versão do Node para baixar. Confira a internet e rode de novo."; exit 1; }
+    echo "  baixando $NODE_ZIP…"; baixa "https://nodejs.org/dist/latest-v22.x/$NODE_ZIP" "$TMPD/node.zip"
+    abre_zip "$TMPD/node.zip" "$TMPD/node"; rm -rf "$BIN/node"; mv "$TMPD/node/${NODE_ZIP%.zip}" "$BIN/node"
+  fi
+  if [ -f "$BIN/rubberband.exe" ]; then echo "  já instalado: rubberband"; else
+    echo "  baixando rubberband…"; baixa "https://breakfastquay.com/files/releases/rubberband-4.0.0-gpl-executable-windows.zip" "$TMPD/rb.zip"
+    abre_zip "$TMPD/rb.zip" "$TMPD/rb"
+    RB_DIR="$(dirname "$(find "$TMPD/rb" -name "rubberband.exe" | head -1)")"
+    [ -f "$RB_DIR/rubberband.exe" ] || { echo "O pacote do rubberband veio sem o programa. Rode o instalador de novo."; exit 1; }
+    find "$RB_DIR" -maxdepth 1 \( -name "*.exe" -o -name "*.dll" \) -exec cp -f {} "$BIN/" \;
+  fi
+  rm -rf "$TMPD"
+  PY="$RSA/.venv/Scripts/python.exe"
+  export PYTHONUTF8=1 PYTHONIOENCODING=utf-8
 fi
-
-# 2 · programas
-passo "Programas (ffmpeg, node, rubberband, uv)"
-for par in ffmpeg:ffmpeg node:node rubberband:rubberband uv:uv; do
-  cmd="${par%%:*}"; formula="${par##*:}"
-  if command -v "$cmd" >/dev/null; then print "  já instalado: $cmd"; else print "  instalando $formula…"; brew install "$formula"; fi
-done
 
 # 3 · Python da skill
 passo "Python da skill e pacotes (a parte mais demorada na primeira vez)"
-[ -x "$RSA/.venv/bin/python" ] || uv venv --python 3.11 "$RSA/.venv"
-uv pip install --python "$RSA/.venv/bin/python" -r "$RSA/ferramentas/requirements.txt"
+[ -f "$PY" ] || uv venv --python 3.11 "$RSA/.venv"
+uv pip install --python "$PY" -r "$RSA/ferramentas/requirements.txt"
 
 # 4 · HyperFrames (versão fixa) e o navegador dele
 passo "HyperFrames (renderizador) na versão dos motores"
-if [ ! -x "$RSA/ferramentas/node_modules/.bin/hyperframes" ]; then
+HFB="$RSA/ferramentas/node_modules/.bin/hyperframes"
+if [ ! -e "$HFB" ]; then
   npm install --prefix "$RSA/ferramentas" --no-audit --no-fund --loglevel=error
-else print "  já instalado"; fi
-"$RSA/ferramentas/node_modules/.bin/hyperframes" browser ensure >/dev/null 2>&1 || "$RSA/ferramentas/node_modules/.bin/hyperframes" browser ensure
+else echo "  já instalado"; fi
+"$HFB" browser ensure >/dev/null 2>&1 || "$HFB" browser ensure
 
 # 5 · modelos
 passo "Modelos (alinhamento em português ~1,2 GB, separação de áudio, recorte de fundo)"
-"$RSA/.venv/bin/python" - <<'E'
+"$PY" - <<'E'
 import os, sys
 from huggingface_hub import snapshot_download
 snapshot_download("jonatasgrosman/wav2vec2-large-xlsr-53-portuguese",
@@ -93,28 +141,33 @@ from rembg import new_session
 new_session("isnet-general-use"); print("  recorte de fundo: pronto")
 E
 
-# 6 · fontes do motor documentário (do próprio macOS)
+# 6 · fontes do motor documentário (do próprio computador)
 passo "Fontes do motor documentário"
-"$RSA/.venv/bin/python" "$RSA/ferramentas/fontes-do-sistema.py" || true
+"$PY" "$RSA/ferramentas/fontes-do-sistema.py" || true
 
-# 7 · transcritor (opcional)
-if (( COM_WHISPER )); then
-  passo "Transcritor para conferir a narração (whisper, 0,6 GB)"
-  command -v whisper-cli >/dev/null || brew install whisper-cpp
-  mkdir -p "$RSA/modelos"
-  [ -f "$RSA/modelos/ggml-large-v3-turbo-q5_0.bin" ] || curl -fL --progress-bar -o "$RSA/modelos/ggml-large-v3-turbo-q5_0.bin" \
-    "https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-large-v3-turbo-q5_0.bin"
+# 7 · transcritor (opcional, só Mac)
+if [ "$COM_WHISPER" = 1 ]; then
+  if [ "$OS" = mac ]; then
+    passo "Transcritor para conferir a narração (whisper, 0,6 GB)"
+    command -v whisper-cli >/dev/null 2>&1 || brew install whisper-cpp
+    mkdir -p "$RSA/modelos"
+    [ -f "$RSA/modelos/ggml-large-v3-turbo-q5_0.bin" ] || curl -fL --progress-bar -o "$RSA/modelos/ggml-large-v3-turbo-q5_0.bin" \
+      "https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-large-v3-turbo-q5_0.bin"
+  else
+    echo; echo "O transcritor (--com-whisper) ainda só é instalado no Mac. No Windows a etapa 'conferir-fala' fica pulada: ouça a narração inteira antes de montar."
+  fi
 fi
 
 # 8 · atalhos por nome de motor (/reel-editorial, /reel-neon, /reel-documentario, /reel-dentro-do-mundo)
-if [ "${RSA:h}" = "$HOME/.claude/skills" ]; then
+if [ "$(dirname "$RSA")" = "$HOME/.claude/skills" ]; then
   passo "Atalhos dos motores"
-  for d in "$RSA"/atalhos/*(/N); do
-    n="${d:t}"; alvo="$HOME/.claude/skills/$n"
-    if [ -e "$alvo" ] && ! grep -q "reels-sem-aparecer" "$alvo/SKILL.md" 2>/dev/null; then print "  /$n: já existe outra skill com esse nome; mantive a sua"
-    else mkdir -p "$alvo"; cp "$d/SKILL.md" "$alvo/SKILL.md"; print "  /$n"; fi
+  for d in "$RSA"/atalhos/*/; do
+    [ -d "$d" ] || continue
+    n="$(basename "$d")"; alvo="$HOME/.claude/skills/$n"
+    if [ -e "$alvo" ] && ! grep -q "reels-sem-aparecer" "$alvo/SKILL.md" 2>/dev/null; then echo "  /$n: já existe outra skill com esse nome; mantive a sua"
+    else mkdir -p "$alvo"; cp "$d/SKILL.md" "$alvo/SKILL.md"; echo "  /$n"; fi
   done
 fi
 
-print
-zsh "$RSA/ferramentas/diagnostico.sh"
+echo
+bash "$RSA/ferramentas/diagnostico.sh"
