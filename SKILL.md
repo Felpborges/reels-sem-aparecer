@@ -33,12 +33,18 @@ Regras do roteador:
 ## 2 · Antes do primeiro reel: a máquina
 
 1. `bash S/ferramentas/diagnostico.sh`. Saiu `PRONTO`: siga. Faltou algo: rode `bash S/instalar.sh` (10 a 20 min na primeira
-   vez, ~4 GB; pode rodar de novo à vontade). Se ele parar pedindo o **Homebrew**, é o único passo que a pessoa faz
-   sozinha (pede a senha do Mac): mostre as três linhas que ele imprime e espere ela avisar que terminou.
+   vez, ~4 GB; pode rodar de novo à vontade). No Mac, se ele parar pedindo o **Homebrew**, é o único passo que a pessoa
+   faz sozinha (pede a senha do Mac): mostre as três linhas que ele imprime e espere ela avisar que terminou.
 2. **Higgsfield conectado.** Voz, imagens e trilha saem do Higgsfield pelo conector (MCP). Confira procurando as
    ferramentas dele (`generate_audio`, `generate_image`, `balance`). Não achou: explique em duas linhas como conectar
    (`references/higgsfield.md`) e pare até ela conectar. Sem o Higgsfield não há reel.
-3. Só funciona em **macOS**. Em outro sistema, diga isso logo e não tente contornar.
+3. Funciona em **macOS** e em **Windows 10/11**. No Windows tudo roda pelo **Git Bash** (a ferramenta Bash do Claude
+   Code): use sempre `bash …` e `./reel.sh …`, com barras normais nos caminhos. Se nesta sessão só existir a ferramenta
+   PowerShell, o Git para Windows não está instalado: rode em PowerShell
+   `irm https://raw.githubusercontent.com/Felpborges/reels-sem-aparecer/main/instalar.ps1 | iex`, peça para a pessoa
+   fechar e abrir o Claude Code e continue pela ferramenta Bash. No Windows não existe o transcritor (`conferir-fala` é
+   pulada: peça para a pessoa ouvir a narração) e o motor documentário usa as fontes equivalentes do sistema (Arial e
+   Palatino no lugar de Helvetica Neue e Hoefler Text). Em Linux a skill não roda: diga isso logo e não tente contornar.
 
 ## 3 · O fluxo (ordem fixa)
 
@@ -108,9 +114,9 @@ olhe a folha de novo. Mudou o texto: `./reel.sh texto` (ou o equivalente do moto
 | Sintoma | O que fazer |
 |---|---|
 | "A skill ainda não terminou de ser instalada" | `bash S/instalar.sh` |
-| `conferir-fala` diz que foi pulada | o transcritor é opcional: `bash S/instalar.sh --com-whisper`; enquanto isso, ouça a narração inteira |
-| build do documentário reclama de fonte | `S/.venv/bin/python S/ferramentas/fontes-do-sistema.py` (tira as fontes do próprio macOS) |
-| auditoria ou margens não abrem o navegador | falta o Google Chrome instalado |
+| `conferir-fala` diz que foi pulada | o transcritor é opcional e só existe no Mac: `bash S/instalar.sh --com-whisper`; sem ele, ouça a narração inteira |
+| build do documentário reclama de fonte | `bash S/instalar.sh` (ele tira as fontes do próprio computador) |
+| auditoria ou margens não abrem o navegador | falta o Google Chrome instalado (no Windows serve o Edge) |
 | render falha | leia `renders/render.log`; quase sempre é imagem que o `cenas.py` cita e não está em `assets/img/` |
 | a pasta do reel foi movida de computador | apague o arquivo `.rsa` dela (o `reel.sh` volta a achar a skill no lugar padrão) |
 
@@ -118,7 +124,7 @@ olhe a folha de novo. Mudou o texto: `./reel.sh texto` (ou o equivalente do moto
 
 ```
 SKILL.md                      este arquivo (o roteador)
-instalar.sh                   instala tudo o que os motores precisam (macOS)
+instalar.sh                   instala tudo o que os motores precisam (macOS e Windows); instalar.ps1 é a porta de entrada do Windows
 ferramentas/                  diagnostico.sh · novo-reel.sh · ambiente.sh · pericia-movimento.py · fontes-do-sistema.py
 motores/<motor>/MOTOR.md      o manual do motor (ler inteiro antes de produzir)
 motores/<motor>/base/         o projeto vazio que o novo-reel.sh copia (build, moldes, mixagem, reel.sh, medidores)

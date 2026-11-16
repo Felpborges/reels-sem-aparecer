@@ -13,11 +13,11 @@ a mídia. São quatro motores de edição, cada um medido e validado num estilo:
 
 ## O que você precisa ter
 
-- Um **Mac** (testado em Mac com chip Apple, M1 ou mais novo). No Windows ainda não roda.
+- Um **Mac** (chip Apple, M1 ou mais novo) ou um **PC com Windows 10 ou 11** (64 bits).
 - O **Claude Code** (o app do Claude, aba Code, ou o `claude` no terminal).
 - Uma conta no **Higgsfield** com créditos, conectada ao Claude (é o passo 1 da aula; a skill te guia se faltar).
 - Uns **4 GB livres** e de 10 a 20 minutos para a primeira instalação.
-- O **Google Chrome** instalado (a skill usa para conferir se nenhum texto sai da tela).
+- O **Google Chrome** instalado (a skill usa para conferir se nenhum texto sai da tela). No Windows serve o Edge, que já vem no sistema.
 
 ## Instalar
 
@@ -25,28 +25,44 @@ a mídia. São quatro motores de edição, cada um medido e validado num estilo:
 
 > Instale a skill deste repositório seguindo o README: https://github.com/Felpborges/reels-sem-aparecer
 
-**Jeito 2: uma linha no Terminal.** Abra o app Terminal, cole e aperte Enter:
+**Jeito 2: uma linha.**
+
+No **Mac**, abra o app Terminal, cole e aperte Enter:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/Felpborges/reels-sem-aparecer/main/instalar.sh | zsh
+curl -fsSL https://raw.githubusercontent.com/Felpborges/reels-sem-aparecer/main/instalar.sh | bash
 ```
 
-Nos dois jeitos o instalador baixa a skill para `~/.claude/skills/reels-sem-aparecer`, instala o que falta e termina
-com um diagnóstico. Quando aparecer `PRONTO`, feche e abra o Claude Code de novo.
+No **Windows**, abra o app PowerShell, cole e aperte Enter:
 
-Se ele parar dizendo que falta o **Homebrew**, é o único passo que precisa da senha do seu Mac: ele mostra a linha para
-colar no Terminal; cole, espere terminar e rode o instalador de novo.
+```powershell
+irm https://raw.githubusercontent.com/Felpborges/reels-sem-aparecer/main/instalar.ps1 | iex
+```
+
+Nos dois jeitos o instalador baixa a skill para a pasta `.claude/skills/reels-sem-aparecer` do seu usuário, instala o
+que falta e termina com um diagnóstico. Quando aparecer `PRONTO`, feche e abra o Claude Code de novo.
+
+- **Mac:** se ele parar dizendo que falta o **Homebrew**, é o único passo que precisa da senha do seu Mac: ele mostra a
+  linha para colar no Terminal; cole, espere terminar e rode o instalador de novo.
+- **Windows:** a skill precisa do **Git para Windows** (ele traz o "Git Bash", que o Claude Code usa para rodar os
+  comandos). Se você não tiver, o instalador instala pelo próprio Windows e pede a sua confirmação. Os outros programas
+  (ffmpeg, Node e companhia) ficam dentro da pasta da skill; nada mais é instalado no sistema.
 
 <details>
 <summary>Para o Claude: como instalar (jeito 1)</summary>
 
-1. Rode `curl -fsSL https://raw.githubusercontent.com/Felpborges/reels-sem-aparecer/main/instalar.sh | zsh` (leva de 10
-   a 20 minutos; rode em segundo plano e avise a pessoa do tempo).
-2. Se sair com código 3, falta o Homebrew: mostre à pessoa as linhas que o instalador imprimiu, espere ela concluir e
-   rode de novo. Não tente instalar o Homebrew você mesmo (pede a senha dela).
+1. **Mac, ou Windows com a ferramenta Bash disponível (Git Bash):** rode
+   `curl -fsSL https://raw.githubusercontent.com/Felpborges/reels-sem-aparecer/main/instalar.sh | bash` (leva de 10 a 20
+   minutos; rode em segundo plano e avise a pessoa do tempo).
+   **Windows só com PowerShell (sem Git Bash):** rode
+   `irm https://raw.githubusercontent.com/Felpborges/reels-sem-aparecer/main/instalar.ps1 | iex`. Ele instala o Git para
+   Windows pelo winget (a pessoa confirma na tela) e segue com a instalação.
+2. Se sair com código 3: no Mac falta o Homebrew; no Windows o Git não pôde ser instalado sozinho. Mostre à pessoa as
+   linhas que o instalador imprimiu, espere ela concluir e rode de novo. Não tente contornar (pede a senha ou a
+   confirmação dela).
 3. No fim, rode `bash ~/.claude/skills/reels-sem-aparecer/ferramentas/diagnostico.sh` e conte o resultado em linguagem
    simples. Confira também se o Higgsfield está conectado (`references/higgsfield.md`).
-4. Peça para a pessoa reiniciar o Claude Code para os atalhos aparecerem.
+4. Peça para a pessoa reiniciar o Claude Code: os atalhos aparecem e, no Windows, a ferramenta Bash passa a existir.
 </details>
 
 ## Usar
@@ -70,6 +86,9 @@ em alta qualidade. Nada é publicado sozinho: postar é com você.
 Quer trocar a voz, uma imagem ou uma frase? É só pedir na mesma conversa.
 
 ## Atualizar ou remover
+
+O jeito mais fácil é pedir ao Claude: "Atualize a skill reels-sem-aparecer". Pelo Terminal (no Windows, pelo app
+Git Bash):
 
 ```bash
 bash ~/.claude/skills/reels-sem-aparecer/instalar.sh --atualizar

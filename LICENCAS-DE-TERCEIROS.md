@@ -43,3 +43,14 @@ segue a própria licença.
 
 O logo do Claude (`motores/editorial/base/assets/img/claude.svg`) é marca da Anthropic e está aqui só como exemplo de
 "logo oficial da marca que é o assunto do reel". As demais marcas citadas nos exemplos pertencem aos seus donos.
+
+## Windows
+
+**Fontes do motor documentário:** no Windows a skill copia, do próprio computador, Arial, Arial Bold e Palatino Linotype
+Italic (ou Georgia Italic), que acompanham o sistema, para fazer o papel de Helvetica Neue e Hoefler Text. Elas também
+não são distribuídas com a skill.
+
+**Programas baixados pelo instalador** (ficam em `ferramentas/bin/` na pasta da skill; não acompanham o repositório):
+uv (Astral, MIT/Apache 2.0), FFmpeg (compilação "essentials" de gyan.dev, GPL v3), Node.js (licença MIT) e Rubber Band
+(Breakfast Quay, GPL v2 ou posterior). Cada um é baixado do site oficial do respectivo projeto.
+

@@ -12,4 +12,4 @@ Atalho. O motor já está escolhido: **EDITORIAL** (pasta `editorial`).
 3. O que a pessoa escreveu depois do atalho é o tema (ou o pedido). Sem tema: pergunte o tema ou o nicho.
 
 Se `~/.claude/skills/reels-sem-aparecer/` não existir, diga que a skill principal não está instalada e mostre o comando de
-instalação: `curl -fsSL https://raw.githubusercontent.com/Felpborges/reels-sem-aparecer/main/instalar.sh | zsh`
+instalação: `curl -fsSL https://raw.githubusercontent.com/Felpborges/reels-sem-aparecer/main/instalar.sh | bash`
