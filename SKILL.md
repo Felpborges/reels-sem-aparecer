@@ -116,6 +116,7 @@ olhe a folha de novo. Mudou o texto: `./reel.sh texto` (ou o equivalente do moto
 | Sintoma | O que fazer |
 |---|---|
 | "A skill ainda não terminou de ser instalada" | `bash S/instalar.sh` |
+| pediram para atualizar a skill | `bash S/instalar.sh --atualizar` e peça para fechar e abrir o Claude Code |
 | `conferir-fala` diz que foi pulada | o transcritor é opcional e só existe no Mac: `bash S/instalar.sh --com-whisper`; sem ele, ouça a narração inteira |
 | build do documentário reclama de fonte | `bash S/instalar.sh` (ele tira as fontes do próprio computador) |
 | auditoria ou margens não abrem o navegador | falta o Google Chrome instalado (no Windows serve o Edge) |
