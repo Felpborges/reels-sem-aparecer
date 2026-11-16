@@ -74,6 +74,7 @@ if [ "$OS" = mac ]; then
 else
   # 1-2 · Windows: programas portáteis dentro da skill (não mexe no sistema, não pede senha)
   BIN="$RSA/ferramentas/bin"; TMPD="$BIN/_baixando"; mkdir -p "$BIN"
+  ACHA=/usr/bin/find; [ -x "$ACHA" ] || ACHA=find      # o "find" do Windows é outro programa: usa sempre o do Git Bash
   export PATH="$BIN:$BIN/node:$PATH"
   baixa() { curl -fL --retry 3 --retry-delay 2 --progress-bar -o "$2" "$1"; }
   abre_zip() {
@@ -85,27 +86,32 @@ else
   mkdir -p "$TMPD"
   if [ -f "$BIN/uv.exe" ]; then echo "  já instalado: uv"; else
     echo "  baixando uv…"; baixa "https://github.com/astral-sh/uv/releases/latest/download/uv-x86_64-pc-windows-msvc.zip" "$TMPD/uv.zip"
-    abre_zip "$TMPD/uv.zip" "$TMPD/uv"; find "$TMPD/uv" -name "uv*.exe" -exec mv -f {} "$BIN/" \;
+    abre_zip "$TMPD/uv.zip" "$TMPD/uv"; "$ACHA" "$TMPD/uv" -name "uv*.exe" -exec cp -f {} "$BIN/" \;
+    [ -f "$BIN/uv.exe" ] || { echo "O pacote do uv veio sem o programa. Rode o instalador de novo."; exit 1; }
   fi
   if [ -f "$BIN/ffmpeg.exe" ] && [ -f "$BIN/ffprobe.exe" ]; then echo "  já instalado: ffmpeg"; else
     echo "  baixando ffmpeg (uns 100 MB)…"; baixa "https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-essentials.zip" "$TMPD/ffmpeg.zip"
     abre_zip "$TMPD/ffmpeg.zip" "$TMPD/ffmpeg"
-    find "$TMPD/ffmpeg" \( -name "ffmpeg.exe" -o -name "ffprobe.exe" \) -exec mv -f {} "$BIN/" \;
+    "$ACHA" "$TMPD/ffmpeg" \( -name "ffmpeg.exe" -o -name "ffprobe.exe" \) -exec cp -f {} "$BIN/" \;
+    [ -f "$BIN/ffmpeg.exe" ] && [ -f "$BIN/ffprobe.exe" ] || { echo "O pacote do ffmpeg veio incompleto. Rode o instalador de novo."; exit 1; }
   fi
   if [ -f "$BIN/node/node.exe" ]; then echo "  já instalado: node"; else
     NODE_ZIP="$(curl -fsSL https://nodejs.org/dist/latest-v22.x/SHASUMS256.txt | grep -o 'node-v[0-9.]*-win-x64\.zip' | head -1)"
     [ -n "$NODE_ZIP" ] || { echo "Não consegui descobrir a versão do Node para baixar. Confira a internet e rode de novo."; exit 1; }
     echo "  baixando $NODE_ZIP…"; baixa "https://nodejs.org/dist/latest-v22.x/$NODE_ZIP" "$TMPD/node.zip"
-    abre_zip "$TMPD/node.zip" "$TMPD/node"; rm -rf "$BIN/node"; mv "$TMPD/node/${NODE_ZIP%.zip}" "$BIN/node"
+    abre_zip "$TMPD/node.zip" "$TMPD/node"; rm -rf "$BIN/node"
+    NODE_DIR="$(dirname "$("$ACHA" "$TMPD/node" -name "node.exe" | head -1)")"
+    [ -f "$NODE_DIR/node.exe" ] || { echo "O pacote do Node veio sem o programa. Rode o instalador de novo."; exit 1; }
+    mv "$NODE_DIR" "$BIN/node" 2>/dev/null || { rm -rf "$BIN/node"; cp -R "$NODE_DIR" "$BIN/node"; }
   fi
   if [ -f "$BIN/rubberband.exe" ]; then echo "  já instalado: rubberband"; else
     echo "  baixando rubberband…"; baixa "https://breakfastquay.com/files/releases/rubberband-4.0.0-gpl-executable-windows.zip" "$TMPD/rb.zip"
     abre_zip "$TMPD/rb.zip" "$TMPD/rb"
-    RB_DIR="$(dirname "$(find "$TMPD/rb" -name "rubberband.exe" | head -1)")"
+    RB_DIR="$(dirname "$("$ACHA" "$TMPD/rb" -name "rubberband.exe" | head -1)")"
     [ -f "$RB_DIR/rubberband.exe" ] || { echo "O pacote do rubberband veio sem o programa. Rode o instalador de novo."; exit 1; }
-    find "$RB_DIR" -maxdepth 1 \( -name "*.exe" -o -name "*.dll" \) -exec cp -f {} "$BIN/" \;
+    "$ACHA" "$RB_DIR" -maxdepth 1 \( -name "*.exe" -o -name "*.dll" \) -exec cp -f {} "$BIN/" \;
   fi
-  rm -rf "$TMPD"
+  rm -rf "$TMPD" 2>/dev/null || true
   PY="$RSA/.venv/Scripts/python.exe"
   export PYTHONUTF8=1 PYTHONIOENCODING=utf-8
 fi
@@ -114,6 +120,17 @@ fi
 passo "Python da skill e pacotes (a parte mais demorada na primeira vez)"
 [ -f "$PY" ] || uv venv --python 3.11 "$RSA/.venv"
 uv pip install --python "$PY" -r "$RSA/ferramentas/requirements.txt"
+if [ "$OS" = windows ]; then
+  # bibliotecas da Microsoft de que o torch precisa e que um Windows recém-instalado pode não ter (se não der, segue)
+  uv pip install --python "$PY" msvc-runtime >/dev/null 2>&1 || true
+  if ! "$PY" -c "import torch" >/dev/null 2>&1; then
+    echo
+    echo "O Windows está sem o 'Microsoft Visual C++ Redistributable', de que os motores precisam. É rápido:"
+    echo "  1. Baixe e instale: https://aka.ms/vs/17/release/vc_redist.x64.exe"
+    echo "  2. Rode este instalador de novo."
+    exit 4
+  fi
+fi
 
 # 4 · HyperFrames (versão fixa) e o navegador dele
 passo "HyperFrames (renderizador) na versão dos motores"

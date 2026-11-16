@@ -65,7 +65,9 @@ não dá, diga quanto falta e pare.
 bash S/ferramentas/novo-reel.sh <motor> reels/<nome-do-reel> <fala.txt> "Título do reel"
 ```
 Daí em diante tudo roda de dentro dessa pasta com `./reel.sh <etapa>` (rode `./reel.sh` sem nada para ver as etapas).
-O `reel.sh` já usa o Python, o HyperFrames e os modelos da skill; não instale nem troque nada na mão.
+O `reel.sh` já usa o Python, o HyperFrames e os modelos da skill; não instale nem troque nada na mão. Para rodar um
+script avulso do projeto (um `medir/….py` que o manual cite), use `./reel.sh rodar python3 medir/….py …`: assim ele
+roda com o ambiente da skill no Mac e no Windows (no Windows, `python3` e `node` fora do `reel.sh` não são os da skill).
 
 **4 · Voz.** Gere no Higgsfield como o capítulo de voz do motor manda (modelo, estabilidade, voz sugerida), baixe o
 arquivo para `narracao/` e rode `./reel.sh voz <arquivo>` e depois `./reel.sh conferir-fala`. Nos motores neon e

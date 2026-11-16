@@ -57,7 +57,8 @@ que falta e termina com um diagnóstico. Quando aparecer `PRONTO`, feche e abra 
    **Windows só com PowerShell (sem Git Bash):** rode
    `irm https://raw.githubusercontent.com/Felpborges/reels-sem-aparecer/main/instalar.ps1 | iex`. Ele instala o Git para
    Windows pelo winget (a pessoa confirma na tela) e segue com a instalação.
-2. Se sair com código 3: no Mac falta o Homebrew; no Windows o Git não pôde ser instalado sozinho. Mostre à pessoa as
+2. Se sair com código 4 (Windows), falta o Microsoft Visual C++ Redistributable: passe à pessoa o link que o
+   instalador imprimiu. Se sair com código 3: no Mac falta o Homebrew; no Windows o Git não pôde ser instalado sozinho. Mostre à pessoa as
    linhas que o instalador imprimiu, espere ela concluir e rode de novo. Não tente contornar (pede a senha ou a
    confirmação dela).
 3. No fim, rode `bash ~/.claude/skills/reels-sem-aparecer/ferramentas/diagnostico.sh` e conte o resultado em linguagem

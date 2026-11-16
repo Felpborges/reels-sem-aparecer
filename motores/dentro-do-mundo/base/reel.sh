@@ -6,6 +6,7 @@
 #   checar                -> build -> cadência dos mundos -> AUDITORIA de cada palavra em cada quadro. Para no primeiro erro.
 #   montar                -> checar + mixagem + render + cópia leve + teste de movimento contra o original + folha de quadros
 #   provar <t> <opções…>  -> toca o mesmo trecho com cada efeito candidato (medir/provar_efeitos.py) -> renders/provar-<t>.m4a
+#   rodar <comando…>     -> roda qualquer comando com o Python, o node e o ffmpeg da skill (ex.: ./reel.sh rodar python3 medir/x.py)
 set -eo pipefail; cd "$(dirname "$0")"; EU="$(pwd)/$(basename "$0")"
 RSA="${REELS_SEM_APARECER:-$(cat .rsa 2>/dev/null || true)}"; [ -f "$RSA/ferramentas/ambiente.sh" ] || RSA="$HOME/.claude/skills/reels-sem-aparecer"
 source "$RSA/ferramentas/ambiente.sh" || exit 1   # python3, hyperframes, node, ffmpeg e rubberband da skill; RSA_CHROME, RSA_PERICIA, rsa_conferir_fala
@@ -40,5 +41,6 @@ case "$1" in
     python3 "$RSA_PERICIA" "renders/$NOME.mp4" --contra "$REF" 2>&1 | grep -A6 "TESTE DE ACEITE" | tail -5
     $SEP medir/folha.py "renders/$NOME.mp4" "renders/$NOME-folha.jpg" ;;
   provar) shift; $SEP medir/provar_efeitos.py "$@" ;;
-  *) sed -n '2,8p' "$EU" ;;
+  rodar) shift; "$@" ;;
+  *) sed -n '2,9p' "$EU" ;;
 esac

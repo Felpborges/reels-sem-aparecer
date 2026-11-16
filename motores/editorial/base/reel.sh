@@ -5,6 +5,7 @@
 #   conferir-fala         -> transcreve em trechos de 25 s (a transcrição do arquivo inteiro pula frases; em trechos não)
 #   checar                -> margens (nenhuma palavra cortada) -> build -> regras de cadência. Para no primeiro erro.
 #   montar                -> checar + mixagem + render + cópia leve + teste de movimento contra o original + folha de quadros
+#   rodar <comando…>     -> roda qualquer comando com o Python, o node e o ffmpeg da skill (ex.: ./reel.sh rodar python3 medir/x.py)
 set -eo pipefail; cd "$(dirname "$0")"; EU="$(pwd)/$(basename "$0")"
 RSA="${REELS_SEM_APARECER:-$(cat .rsa 2>/dev/null || true)}"; [ -f "$RSA/ferramentas/ambiente.sh" ] || RSA="$HOME/.claude/skills/reels-sem-aparecer"
 source "$RSA/ferramentas/ambiente.sh" || exit 1   # python3, hyperframes, node, ffmpeg e rubberband da skill; RSA_CHROME, RSA_PERICIA, rsa_conferir_fala
@@ -32,5 +33,6 @@ case "$1" in
     ffmpeg -y -v error -i "renders/$NOME.mp4" -c:v libx264 -crf 24 -preset slow -c:a aac -b:a 160k -movflags +faststart "renders/$NOME-compartilhar.mp4"
     python3 "$RSA_PERICIA" "renders/$NOME.mp4" --contra "$REF" 2>&1 | grep -A8 "TESTE DE ACEITE" | tail -6
     $SEP medir/folha.py "renders/$NOME.mp4" "renders/$NOME-folha.jpg" ;;
+  rodar) shift; "$@" ;;
   *) sed -n '2,8p' "$EU" ;;
 esac

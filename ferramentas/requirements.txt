@@ -14,5 +14,3 @@ rembg>=2.0.60
 onnxruntime
 praat-parselmouth
 fonttools
-# Windows: bibliotecas da Microsoft de que o torch precisa e que um Windows recém-instalado pode não ter
-msvc-runtime; sys_platform == "win32"

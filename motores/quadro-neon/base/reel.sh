@@ -8,6 +8,7 @@
 #   checar                -> build -> auditoria de cada palavra em cada quadro
 #   quadros t1 t2 ...     -> PNGs rápidos do index.html (sem render) em renders/q-<t>.png
 #   montar                -> checar + trilha arranjada + mixagem + render + cópia leve + teste de movimento + folha
+#   rodar <comando…>     -> roda qualquer comando com o Python, o node e o ffmpeg da skill (ex.: ./reel.sh rodar python3 medir/x.py)
 set -eo pipefail; cd "$(dirname "$0")"; EU="$(pwd)/$(basename "$0")"
 RSA="${REELS_SEM_APARECER:-$(cat .rsa 2>/dev/null || true)}"; [ -f "$RSA/ferramentas/ambiente.sh" ] || RSA="$HOME/.claude/skills/reels-sem-aparecer"
 source "$RSA/ferramentas/ambiente.sh" || exit 1   # python3, hyperframes, node, ffmpeg e rubberband da skill; RSA_CHROME, RSA_PERICIA, rsa_conferir_fala
@@ -48,5 +49,6 @@ case "$1" in
     ffmpeg -y -v error -i "renders/$NOME.mp4" -c:v libx264 -crf 24 -preset slow -c:a aac -b:a 160k -movflags +faststart "renders/$NOME-compartilhar.mp4"
     python3 "$RSA_PERICIA" "renders/$NOME.mp4" --contra "$REF" 2>&1 | grep -A6 "TESTE DE ACEITE" | tail -5
     python3 medir/folha.py "renders/$NOME.mp4" "renders/$NOME-folha" 2 120 10 3 ;;
-  *) sed -n '2,10p' "$EU" ;;
+  rodar) shift; "$@" ;;
+  *) sed -n '2,11p' "$EU" ;;
 esac

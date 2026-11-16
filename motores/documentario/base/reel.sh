@@ -8,6 +8,7 @@
 #   checar                -> build + lint do HyperFrames
 #   quadros t1 t2 ...     -> renderiza o limpo e tira PNGs em renders/q-<t>.png
 #   montar                -> checar -> render 10 fps -> efeitos -> mixagem -> película (1080x1920) -> cópia leve -> movimento -> folha
+#   rodar <comando…>     -> roda qualquer comando com o Python, o node e o ffmpeg da skill (ex.: ./reel.sh rodar python3 medir/x.py)
 set -eo pipefail; cd "$(dirname "$0")"; EU="$(pwd)/$(basename "$0")"
 RSA="${REELS_SEM_APARECER:-$(cat .rsa 2>/dev/null || true)}"; [ -f "$RSA/ferramentas/ambiente.sh" ] || RSA="$HOME/.claude/skills/reels-sem-aparecer"
 source "$RSA/ferramentas/ambiente.sh" || exit 1   # python3, hyperframes, node, ffmpeg e rubberband da skill; RSA_CHROME, RSA_PERICIA, rsa_conferir_fala
@@ -48,5 +49,6 @@ case "$1" in
     ffmpeg -y -v error -i "renders/$NOME.mp4" -vf "setparams=colorspace=bt709:color_primaries=bt709:color_trc=bt709:range=tv" -c:v libx264 -crf 23 -preset slow -x264-params colorprim=bt709:transfer=bt709:colormatrix=bt709 -c:a aac -b:a 160k -movflags +faststart "renders/$NOME-compartilhar.mp4"
     python3 "$RSA_PERICIA" "renders/$NOME.mp4" --contra "$REF" 2>&1 | grep -A8 "TESTE DE ACEITE" | tail -6 || true
     $SEP -I medir/folha_video.py "renders/$NOME.mp4" "renders/$NOME-folha" ;;
-  *) sed -n '2,10p' "$EU" ;;
+  rodar) shift; "$@" ;;
+  *) sed -n '2,11p' "$EU" ;;
 esac
